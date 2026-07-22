@@ -1,0 +1,8 @@
+# Publish only the portfolio website and the files it needs.
+/*
+!/.gitignore
+!/index.html
+!/assets/
+!/assets/**
+!/visualizations/
+!/visualizations/**

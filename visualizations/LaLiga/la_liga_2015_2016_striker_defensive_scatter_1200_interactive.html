@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Liga 2015/16 Striker Defensive Profile</title>
+  <style>
+    :root {
+      --bg: #f9fafc;
+      --text: #202633;
+      --muted: #606b80;
+      --grid: #dde2eb;
+      --axis: #5b6579;
+      --blue: #3a7bd5;
+      --red: #e15b49;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Calibri, system-ui, sans-serif;
+    }
+    main {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 32px 28px 40px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.05;
+    }
+    .subtitle {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 24px);
+    }
+    .chart-wrap {
+      position: relative;
+      width: 100%;
+    }
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+    .grid { stroke: var(--grid); stroke-width: 1; }
+    .axis { stroke: var(--axis); stroke-width: 2; }
+    .zero { stroke: #8791a6; stroke-width: 2; }
+    .point {
+      fill: var(--blue);
+      opacity: 0.82;
+      stroke: white;
+      stroke-width: 2;
+    }
+    .point-key {
+      fill: var(--red);
+      stroke: var(--text);
+      stroke-width: 2.5;
+    }
+    .tick, .axis-label, .quadrant {
+      fill: var(--muted);
+      font-size: 15px;
+    }
+    .axis-label {
+      fill: var(--text);
+      font-weight: 700;
+      font-size: 18px;
+    }
+    .label-key {
+      fill: var(--text);
+      font-size: 19px;
+      font-weight: 700;
+      paint-order: stroke;
+      stroke: white;
+      stroke-width: 5px;
+      stroke-linejoin: round;
+    }
+    .legend {
+      font-size: 16px;
+      fill: var(--muted);
+    }
+    .tooltip {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0;
+      max-width: 280px;
+      padding: 10px 12px;
+      background: white;
+      border: 1px solid var(--grid);
+      border-radius: 8px;
+      box-shadow: 0 10px 28px rgba(25, 33, 52, 0.14);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.45;
+      transition: opacity 120ms ease;
+    }
+    .tooltip.visible { opacity: 1; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>La Liga 2015/16 Striker Defensive Profile</h1>
+    <p class="subtitle">Central forwards with at least 1200 minutes. Axes use per-90 z-score indexes.</p>
+    <div class="chart-wrap">
+      <svg viewBox="0 0 1200 780" role="img" aria-label="La Liga 2015/16 striker defensive scatter plot">
+        <g id="plot"></g>
+      </svg>
+      <div id="tooltip" class="tooltip"></div>
+    </div>
+  </main>
+  <script id="scatter-data" type="application/json">[{"display_name": "Adalberto Peñaranda Maestre", "player_name": "Adalberto Peñaranda Maestre", "team_name": "Granada", "minutes": 1715.8, "x": 3.597, "y": 2.561, "pressing_rank": 1, "intervention_rank": 6, "is_key_player": false, "pressure_per90": 20.82, "counterpress_per90": 8.13, "ball_recovery_per90": 3.72, "duel_per90": 6.24}, {"display_name": "Nicolás Ladislao Fedor Flores", "player_name": "Nicolás Ladislao Fedor Flores", "team_name": "Rayo Vallecano", "minutes": 1595.6, "x": 3.435, "y": 2.617, "pressing_rank": 2, "intervention_rank": 5, "is_key_player": false, "pressure_per90": 19.85, "counterpress_per90": 8.29, "ball_recovery_per90": 3.78, "duel_per90": 7.39}, {"display_name": "Sergio Enrich Ametller", "player_name": "Sergio Enrich Ametller", "team_name": "Eibar", "minutes": 2504.5, "x": 2.93, "y": 3.287, "pressing_rank": 3, "intervention_rank": 3, "is_key_player": false, "pressure_per90": 20.59, "counterpress_per90": 7.22, "ball_recovery_per90": 3.63, "duel_per90": 9.95}, {"display_name": "Gerard Moreno Balaguero", "player_name": "Gerard Moreno Balaguero", "team_name": "Espanyol", "minutes": 1987.0, "x": 1.842, "y": 2.93, "pressing_rank": 4, "intervention_rank": 4, "is_key_player": false, "pressure_per90": 15.85, "counterpress_per90": 7.56, "ball_recovery_per90": 3.44, "duel_per90": 6.7}, {"display_name": "Deyverson Brum Silva Acosta", "player_name": "Deyverson Brum Silva Acosta", "team_name": "Levante UD", "minutes": 2238.0, "x": 1.819, "y": 3.979, "pressing_rank": 5, "intervention_rank": 2, "is_key_player": false, "pressure_per90": 19.14, "counterpress_per90": 6.15, "ball_recovery_per90": 3.98, "duel_per90": 6.64}, {"display_name": "Duje Čop", "player_name": "Duje Čop", "team_name": "Málaga", "minutes": 2085.8, "x": 1.808, "y": 0.556, "pressing_rank": 6, "intervention_rank": 12, "is_key_player": false, "pressure_per90": 17.0, "counterpress_per90": 7.03, "ball_recovery_per90": 3.19, "duel_per90": 4.83}, {"display_name": "John Guidetti", "player_name": "John Guidetti", "team_name": "Celta Vigo", "minutes": 1328.9, "x": 1.726, "y": 0.038, "pressing_rank": 7, "intervention_rank": 16, "is_key_player": false, "pressure_per90": 17.81, "counterpress_per90": 6.57, "ball_recovery_per90": 3.18, "duel_per90": 5.76}, {"display_name": "Griezmann", "player_name": "Antoine Griezmann", "team_name": "Atlético Madrid", "minutes": 3123.3, "x": 1.542, "y": 5.965, "pressing_rank": 8, "intervention_rank": 1, "is_key_player": true, "pressure_per90": 17.84, "counterpress_per90": 6.28, "ball_recovery_per90": 4.81, "duel_per90": 5.3}, {"display_name": "Leonardo Carrilho Baptistão", "player_name": "Leonardo Carrilho Baptistão", "team_name": "Villarreal", "minutes": 1326.4, "x": 1.074, "y": 0.417, "pressing_rank": 9, "intervention_rank": 15, "is_key_player": false, "pressure_per90": 19.0, "counterpress_per90": 5.09, "ball_recovery_per90": 3.53, "duel_per90": 5.97}, {"display_name": "Jonathas Cristian de Jesus", "player_name": "Jonathas Cristian de Jesus", "team_name": "Real Sociedad", "minutes": 1679.3, "x": 0.988, "y": -1.027, "pressing_rank": 10, "intervention_rank": 21, "is_key_player": false, "pressure_per90": 16.51, "counterpress_per90": 6.0, "ball_recovery_per90": 2.2, "duel_per90": 5.73}, {"display_name": "Cédric Bakambu", "player_name": "Cédric Bakambu", "team_name": "Villarreal", "minutes": 1929.2, "x": 0.935, "y": -1.612, "pressing_rank": 11, "intervention_rank": 24, "is_key_player": false, "pressure_per90": 17.73, "counterpress_per90": 5.41, "ball_recovery_per90": 2.94, "duel_per90": 4.85}, {"display_name": "Borja González Tomás", "player_name": "Borja González Tomás", "team_name": "Eibar", "minutes": 2652.5, "x": 0.855, "y": -1.506, "pressing_rank": 12, "intervention_rank": 23, "is_key_player": false, "pressure_per90": 18.7, "counterpress_per90": 4.89, "ball_recovery_per90": 2.65, "duel_per90": 6.31}, {"display_name": "Youssef El-Arabi", "player_name": "Youssef El-Arabi", "team_name": "Granada", "minutes": 2614.8, "x": 0.8, "y": 1.952, "pressing_rank": 13, "intervention_rank": 8, "is_key_player": false, "pressure_per90": 18.0, "counterpress_per90": 5.09, "ball_recovery_per90": 3.72, "duel_per90": 6.37}, {"display_name": "Javier Guerra Rodríguez", "player_name": "Javier Guerra Rodríguez", "team_name": "Rayo Vallecano", "minutes": 2156.4, "x": 0.689, "y": 1.227, "pressing_rank": 14, "intervention_rank": 10, "is_key_player": false, "pressure_per90": 15.61, "counterpress_per90": 5.93, "ball_recovery_per90": 2.59, "duel_per90": 7.55}, {"display_name": "Arnaldo Antonio Sanabria Ayala", "player_name": "Arnaldo Antonio Sanabria Ayala", "team_name": "Sporting Gijón", "minutes": 2306.7, "x": 0.663, "y": 2.475, "pressing_rank": 15, "intervention_rank": 7, "is_key_player": false, "pressure_per90": 15.88, "counterpress_per90": 5.77, "ball_recovery_per90": 3.32, "duel_per90": 8.47}, {"display_name": "Sergio Ezequiel Araújo", "player_name": "Sergio Ezequiel Araújo", "team_name": "Las Palmas", "minutes": 1898.9, "x": 0.384, "y": 1.444, "pressing_rank": 16, "intervention_rank": 9, "is_key_player": false, "pressure_per90": 13.27, "counterpress_per90": 6.45, "ball_recovery_per90": 3.74, "duel_per90": 6.45}, {"display_name": "Lucas Pérez", "player_name": "Lucas Pérez Martínez", "team_name": "RC Deportivo La Coruña", "minutes": 3243.8, "x": 0.231, "y": -2.238, "pressing_rank": 17, "intervention_rank": 27, "is_key_player": true, "pressure_per90": 15.26, "counterpress_per90": 5.38, "ball_recovery_per90": 3.22, "duel_per90": 2.66}, {"display_name": "Iago Aspas", "player_name": "Iago Aspas Juncal", "team_name": "Celta Vigo", "minutes": 2726.3, "x": 0.154, "y": 0.52, "pressing_rank": 18, "intervention_rank": 13, "is_key_player": true, "pressure_per90": 14.59, "counterpress_per90": 5.55, "ball_recovery_per90": 3.47, "duel_per90": 4.16}, {"display_name": "Roberto Soldado Rillo", "player_name": "Roberto Soldado Rillo", "team_name": "Villarreal", "minutes": 2309.2, "x": -0.1, "y": -0.308, "pressing_rank": 19, "intervention_rank": 17, "is_key_player": false, "pressure_per90": 13.8, "counterpress_per90": 5.5, "ball_recovery_per90": 2.88, "duel_per90": 4.25}, {"display_name": "Willian José da Silva", "player_name": "Willian José da Silva", "team_name": "Las Palmas", "minutes": 1807.7, "x": -0.401, "y": -2.452, "pressing_rank": 20, "intervention_rank": 28, "is_key_player": false, "pressure_per90": 12.99, "counterpress_per90": 5.38, "ball_recovery_per90": 2.39, "duel_per90": 4.88}, {"display_name": "Francisco Alcácer García", "player_name": "Francisco Alcácer García", "team_name": "Valencia", "minutes": 2512.1, "x": -0.498, "y": -2.734, "pressing_rank": 21, "intervention_rank": 31, "is_key_player": false, "pressure_per90": 13.94, "counterpress_per90": 4.84, "ball_recovery_per90": 1.72, "duel_per90": 3.69}, {"display_name": "Álvaro Vázquez García", "player_name": "Álvaro Vázquez García", "team_name": "Getafe", "minutes": 2046.4, "x": -0.555, "y": 0.689, "pressing_rank": 22, "intervention_rank": 11, "is_key_player": false, "pressure_per90": 15.83, "counterpress_per90": 3.96, "ball_recovery_per90": 2.37, "duel_per90": 5.76}, {"display_name": "Felipe Salvador Caicedo Corozo", "player_name": "Felipe Salvador Caicedo Corozo", "team_name": "Espanyol", "minutes": 2193.8, "x": -0.804, "y": -1.462, "pressing_rank": 23, "intervention_rank": 22, "is_key_player": false, "pressure_per90": 12.92, "counterpress_per90": 4.8, "ball_recovery_per90": 1.85, "duel_per90": 6.97}, {"display_name": "Kevin Gameiro", "player_name": "Kevin Gameiro", "team_name": "Sevilla", "minutes": 2161.8, "x": -0.857, "y": -0.716, "pressing_rank": 24, "intervention_rank": 18, "is_key_player": false, "pressure_per90": 13.66, "counterpress_per90": 4.41, "ball_recovery_per90": 3.16, "duel_per90": 4.0}, {"display_name": "Fernando José Torres Sanz", "player_name": "Fernando José Torres Sanz", "team_name": "Atlético Madrid", "minutes": 1757.2, "x": -1.045, "y": 0.455, "pressing_rank": 25, "intervention_rank": 14, "is_key_player": false, "pressure_per90": 14.96, "counterpress_per90": 3.59, "ball_recovery_per90": 3.43, "duel_per90": 5.58}, {"display_name": "Charles Días Barbosa de Oliveira", "player_name": "Charles Días Barbosa de Oliveira", "team_name": "Málaga", "minutes": 3102.7, "x": -1.193, "y": -1.024, "pressing_rank": 26, "intervention_rank": 20, "is_key_player": false, "pressure_per90": 12.04, "counterpress_per90": 4.58, "ball_recovery_per90": 2.49, "duel_per90": 5.11}, {"display_name": "Imanol Agirretxe Arruti", "player_name": "Imanol Agirretxe Arruti", "team_name": "Real Sociedad", "minutes": 1203.9, "x": -2.283, "y": -1.978, "pressing_rank": 27, "intervention_rank": 26, "is_key_player": false, "pressure_per90": 11.74, "counterpress_per90": 3.07, "ball_recovery_per90": 2.32, "duel_per90": 5.83}, {"display_name": "Álvaro Negredo Sánchez", "player_name": "Álvaro Negredo Sánchez", "team_name": "Valencia", "minutes": 1218.4, "x": -2.418, "y": -1.676, "pressing_rank": 28, "intervention_rank": 25, "is_key_player": false, "pressure_per90": 9.75, "counterpress_per90": 3.69, "ball_recovery_per90": 2.44, "duel_per90": 5.17}, {"display_name": "Stefan Šćepović", "player_name": "Stefan Šćepović", "team_name": "Getafe", "minutes": 1904.9, "x": -2.535, "y": -2.649, "pressing_rank": 29, "intervention_rank": 30, "is_key_player": false, "pressure_per90": 9.69, "counterpress_per90": 3.54, "ball_recovery_per90": 1.51, "duel_per90": 5.15}, {"display_name": "Aritz Aduriz Zubeldia", "player_name": "Aritz Aduriz Zubeldia", "team_name": "Athletic Club", "minutes": 2873.3, "x": -2.692, "y": -0.75, "pressing_rank": 30, "intervention_rank": 19, "is_key_player": false, "pressure_per90": 9.8, "counterpress_per90": 3.26, "ball_recovery_per90": 2.91, "duel_per90": 5.32}, {"display_name": "Benzema", "player_name": "Karim Benzema", "team_name": "Real Madrid", "minutes": 2018.6, "x": -2.884, "y": -2.604, "pressing_rank": 31, "intervention_rank": 29, "is_key_player": true, "pressure_per90": 10.08, "counterpress_per90": 2.85, "ball_recovery_per90": 2.9, "duel_per90": 2.27}, {"display_name": "Luis Suárez", "player_name": "Luis Alberto Suárez Díaz", "team_name": "Barcelona", "minutes": 3242.6, "x": -3.023, "y": -3.599, "pressing_rank": 32, "intervention_rank": 33, "is_key_player": true, "pressure_per90": 9.3, "counterpress_per90": 2.97, "ball_recovery_per90": 3.05, "duel_per90": 1.69}, {"display_name": "Rubén Castro", "player_name": "Rubén Castro Martín", "team_name": "Real Betis", "minutes": 3493.1, "x": -4.182, "y": -2.777, "pressing_rank": 33, "intervention_rank": 32, "is_key_player": true, "pressure_per90": 6.18, "counterpress_per90": 2.52, "ball_recovery_per90": 2.83, "duel_per90": 2.27}]</script>
+  <script>
+    const data = JSON.parse(document.getElementById("scatter-data").textContent);
+    const svg = document.querySelector("svg");
+    const plot = document.getElementById("plot");
+    const tooltip = document.getElementById("tooltip");
+    const width = 1200;
+    const height = 780;
+    const margin = { left: 105, right: 50, top: 30, bottom: 100 };
+    const innerW = width - margin.left - margin.right;
+    const innerH = height - margin.top - margin.bottom;
+    const minX = Math.floor(Math.min(...data.map(d => d.x)) - 0.5);
+    const maxX = Math.ceil(Math.max(...data.map(d => d.x)) + 0.5);
+    const minY = Math.floor(Math.min(...data.map(d => d.y)) - 0.5);
+    const maxY = Math.ceil(Math.max(...data.map(d => d.y)) + 0.5);
+    const x = value => margin.left + ((value - minX) / (maxX - minX)) * innerW;
+    const y = value => margin.top + innerH - ((value - minY) / (maxY - minY)) * innerH;
+    const make = (name, attrs, text = "") => {
+      const el = document.createElementNS("http://www.w3.org/2000/svg", name);
+      Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+      if (text) el.textContent = text;
+      return el;
+    };
+    for (let tick = minX; tick <= maxX; tick++) {
+      plot.appendChild(make("line", { x1: x(tick), y1: margin.top, x2: x(tick), y2: margin.top + innerH, class: "grid" }));
+      plot.appendChild(make("text", { x: x(tick), y: margin.top + innerH + 28, "text-anchor": "middle", class: "tick" }, tick));
+    }
+    for (let tick = minY; tick <= maxY; tick++) {
+      plot.appendChild(make("line", { x1: margin.left, y1: y(tick), x2: margin.left + innerW, y2: y(tick), class: "grid" }));
+      plot.appendChild(make("text", { x: margin.left - 18, y: y(tick) + 5, "text-anchor": "end", class: "tick" }, tick));
+    }
+    plot.appendChild(make("line", { x1: margin.left, y1: margin.top + innerH, x2: margin.left + innerW, y2: margin.top + innerH, class: "axis" }));
+    plot.appendChild(make("line", { x1: margin.left, y1: margin.top, x2: margin.left, y2: margin.top + innerH, class: "axis" }));
+    plot.appendChild(make("line", { x1: x(0), y1: margin.top, x2: x(0), y2: margin.top + innerH, class: "zero" }));
+    plot.appendChild(make("line", { x1: margin.left, y1: y(0), x2: margin.left + innerW, y2: y(0), class: "zero" }));
+    plot.appendChild(make("text", { x: margin.left + innerW / 2, y: height - 32, "text-anchor": "middle", class: "axis-label" }, "Pressing & Counterpressing Index"));
+    plot.appendChild(make("text", { x: 24, y: margin.top + innerH / 2, transform: `rotate(-90 24 ${margin.top + innerH / 2})`, "text-anchor": "middle", class: "axis-label" }, "Defensive Intervention Index"));
+    plot.appendChild(make("text", { x: x(maxX) - 12, y: y(maxY) + 28, "text-anchor": "end", class: "quadrant" }, "high press / high intervention"));
+    plot.appendChild(make("text", { x: x(minX) + 12, y: y(maxY) + 28, "text-anchor": "start", class: "quadrant" }, "intervention-led"));
+    plot.appendChild(make("text", { x: x(maxX) - 12, y: y(minY) - 14, "text-anchor": "end", class: "quadrant" }, "pressure-led"));
+    plot.appendChild(make("circle", { cx: width - 285, cy: 18, r: 8, class: "point" }));
+    plot.appendChild(make("text", { x: width - 268, y: 23, class: "legend" }, "Other 1200+ min strikers"));
+    plot.appendChild(make("circle", { cx: width - 285, cy: 48, r: 10, class: "point-key" }));
+    plot.appendChild(make("text", { x: width - 268, y: 53, class: "legend" }, "Highlighted players"));
+    [...data].sort((a, b) => Number(a.is_key_player) - Number(b.is_key_player)).forEach(d => {
+      const point = make("circle", {
+        cx: x(d.x),
+        cy: y(d.y),
+        r: d.is_key_player ? 10 : 7,
+        class: d.is_key_player ? "point-key" : "point"
+      });
+      point.addEventListener("mouseenter", () => showTooltip(d, x(d.x), y(d.y)));
+      point.addEventListener("mouseleave", hideTooltip);
+      plot.appendChild(point);
+    });
+    const labelOffsets = {
+      "Luis Suárez": [15, 27],
+      "Griezmann": [15, -14],
+      "Iago Aspas": [15, -14],
+      "Benzema": [15, 27],
+      "Rubén Castro": [-125, -18],
+      "Lucas Pérez": [15, -18]
+    };
+    data.filter(d => d.is_key_player).forEach(d => {
+      const [dx, dy] = labelOffsets[d.display_name] || [15, -14];
+      plot.appendChild(make("text", { x: x(d.x) + dx, y: y(d.y) + dy, class: "label-key" }, d.display_name));
+    });
+    function showTooltip(d, cx, cy) {
+      tooltip.innerHTML = `<strong>${d.display_name}</strong><br>${d.team_name} · ${d.minutes} mins<br>Pressing index: ${d.x} · rank ${d.pressing_rank}<br>Intervention index: ${d.y} · rank ${d.intervention_rank}<br>Pressure p90: ${d.pressure_per90} · Counterpress p90: ${d.counterpress_per90}<br>Ball recoveries p90: ${d.ball_recovery_per90} · Duels p90: ${d.duel_per90}`;
+      const wrap = document.querySelector(".chart-wrap");
+      const wrapRect = wrap.getBoundingClientRect();
+      const svgRect = svg.getBoundingClientRect();
+      const px = (cx / width) * svgRect.width;
+      const py = (cy / height) * svgRect.height;
+      tooltip.classList.add("visible");
+      const box = tooltip.getBoundingClientRect();
+      tooltip.style.left = `${Math.max(8, Math.min(px + 18, wrapRect.width - box.width - 8))}px`;
+      tooltip.style.top = `${Math.max(8, Math.min(py - box.height - 12, wrapRect.height - box.height - 8))}px`;
+    }
+    function hideTooltip() {
+      tooltip.classList.remove("visible");
+    }
+  </script>
+</body>
+</html>

@@ -892,16 +892,113 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
 
   <main id="work">
     <div class="wrap">
-      <div class="section-head reveal">
-        <div><p class="kicker">The project archive</p><h2>Every competition.<br>One evolving library.</h2></div>
-        <p class="section-note">Browse by competition or search for a player, season or analytical theme. Interactive projects open without leaving the archive.</p>
+      <div class="section-head reveal" id="personal-projects">
+        <div><p class="kicker">Personal projects</p><h2>Independent football investigations.</h2></div>
+        <p class="section-note">Research reports and case studies, led by the questions that make each project distinctive.</p>
       </div>
-      <div class="toolbar reveal">
-        <label class="search-wrap"><span hidden>Search projects</span><input class="search" id="search" type="search" placeholder="Search players, seasons, metrics…" autocomplete="off"></label>
-        <div class="filters" id="filters" aria-label="Filter by competition"></div>
-      </div>
-      <div id="archive" aria-live="polite"></div>
-      <div class="empty" id="empty" hidden>No projects match that search. Try another player, season or competition.</div>
+      <section class="style-report reveal" id="ayoze-dembele-report" aria-labelledby="ayozeDembeleReportTitle">
+        <div class="report-opening">
+          <div><p class="kicker">Research report · Premier League · 2015/16</p><h2 id="ayozeDembeleReportTitle">The pressing forward before the spotlight.</h2></div>
+          <p class="report-question"><strong>Research question</strong>What does Ayoze Pérez’s 2015/16 defensive profile reveal about an unexpected football connection with Ousmane Dembélé?</p>
+        </div>
+
+        <button class="report-toggle" id="ayozeDembeleReportToggle" type="button" aria-expanded="false" aria-controls="ayozeDembeleReportContent" data-report-toggle><span data-report-label>Open full report</span><span class="report-toggle-icon" aria-hidden="true"></span></button>
+
+        <div class="report-content" id="ayozeDembeleReportContent" hidden>
+          <div class="report-answer"><span>Technical summary</span><p>The model identifies Ayoze Pérez as one of the league’s clearest two-way forwards. Dembélé’s documented admiration for Pérez and later recognition as an elite pressing leader create a compelling parallel—but not evidence of direct influence.</p></div>
+
+          <div class="report-metrics" aria-label="Ayoze Pérez defensive profile summary">
+            <div class="report-metric"><strong>36</strong><span>Eligible striker cohort</span></div>
+            <div class="report-metric"><strong>4th</strong><span>Pressing index rank</span></div>
+            <div class="report-metric"><strong>1st</strong><span>Intervention index rank</span></div>
+            <div class="report-metric"><strong>20.40</strong><span>Pressures per 30 OOP min</span></div>
+          </div>
+
+          <nav class="report-index" aria-label="Ayoze and Dembélé report chapters">
+            <a href="#ayoze-report-context">01 Introduction</a><a href="#ayoze-report-methodology">02 Methodology</a><a href="#ayoze-report-analysis">03 Analysis</a><a href="#ayoze-report-conclusion">04 Conclusion</a>
+          </nav>
+
+          <section class="report-chapter" id="ayoze-report-context">
+            <span class="chapter-number">01 / Introduction</span>
+            <div class="chapter-body">
+              <h3>From a Ballon d’Or season to an unexpected historical profile.</h3>
+              <p class="chapter-lede">When Ousmane Dembélé won the 2025 <a href="https://ballondor.com/winners" target="_blank" rel="noopener">Ballon d’Or</a><sup><a href="#ayoze-source-4" aria-label="Citation 4">[4]</a></sup> following the 2024/25 season, he was one of the clearest candidates for football’s most prestigious individual award. His goal and assist output was strong, although not exceptional when compared with recent attacking winners. Titles were also central to the result. What made his case distinctive, however, was the attention given to his defensive contribution from an advanced position. He was increasingly described in the press and on social media as a “pressing monster”, while analysis highlighted how his pressing and defensive actions helped Paris Saint-Germain complete a treble of Ligue 1, Coupe de France and Champions League titles.</p>
+              <p class="chapter-lede">This project began during exploratory work with the public StatsBomb database. I wanted to identify trends and potential areas for analysis, so I produced a plot of strikers with the highest pressing and defensive-action totals per 90 minutes. The result was surprising: Ayoze Pérez appeared first in the Defensive Intervention Index and fourth in the Pressing and Counterpressing Index. As a football fan who follows news and social-media discussion around the game, I immediately connected that result with older reports of Dembélé publicly praising Pérez.</p>
+              <p class="chapter-lede">The connection was unexpected because Dembélé could have publicly admired many more globally recognised attacking players, including Cristiano Ronaldo, Lionel Messi, Zlatan Ibrahimović, Robert Lewandowski or Harry Kane. This does not mean that Pérez directly shaped Dembélé’s style of play. Instead, it provides an interesting football narrative: a player whom Dembélé publicly admired had already produced an unusually strong defensive-forward profile in historical Premier League event data. The analysis therefore presents a reproducible data finding alongside that narrative connection, without claiming direct influence or causation.</p>
+              <div class="context-grid">
+                <article class="context-card"><span>Starting point</span><h4>A forward valued without the ball</h4><p>Dembélé’s recognition brought advanced defensive work into the discussion of elite attacking performance, rather than treating it as separate from attacking value.</p></article>
+                <article class="context-card"><span>Data discovery</span><h4>Ayoze as an outlier</h4><p>An exploratory striker plot identified Pérez as first for defensive interventions and fourth for pressing and counterpressing within the defined cohort.</p></article>
+                <article class="context-card"><span>Research boundary</span><h4>Parallel, not influence</h4><p>The reported admiration makes the result notable, but it cannot demonstrate that Pérez caused or taught Dembélé’s pressing behaviour.</p></article>
+              </div>
+            </div>
+          </section>
+
+          <section class="report-chapter" id="ayoze-report-methodology">
+            <span class="chapter-number">02 / Methodology</span>
+            <div class="chapter-body">
+              <h3>Defensive actions need a defensive-opportunity denominator.</h3>
+              <p class="chapter-lede">To create the Defensive Intervention Index and Pressing and Counterpressing Index, I did not simply divide defensive actions by total minutes played. A per-90 measure can overstate the defensive activity of a player whose team spends long periods without the ball, and understate the activity of a player at a possession-dominant team. Each event is therefore measured against the player’s estimated minutes spent out of possession while on the pitch. The resulting rates are then standardized within the 36-player Premier League striker cohort before the two indices are constructed.</p>
+              <div class="academic-method" aria-label="Possession-adjusted index methodology">
+                <section class="method-formula"><h4>Possession-adjusted event rate</h4><p>For each defensive event, the rate is calculated against estimated time spent without possession rather than total minutes played.</p><p class="formula"><i>r</i><sub>e,30</sub> = (<i>N</i><sub>e</sub> / <i>T</i><sub>opp</sub>) × 30</p><dl class="variable-definitions"><dt><i>r</i><sub>e,30</sub></dt><dd>Possession-adjusted rate for defensive event <i>e</i>, per 30 opposition-possession minutes.</dd><dt><i>N</i><sub>e</sub></dt><dd>Number of defensive events of type <i>e</i> recorded for the player.</dd><dt><i>T</i><sub>opp</sub></dt><dd>Player’s estimated minutes spent out of possession while on the pitch.</dd></dl><p>Using total minutes would not provide equal opportunity for every striker to defend. A player at a low-possession team can spend considerably longer without the ball than a player at a possession-dominant team. The denominator therefore represents the time in which defensive actions could plausibly occur.</p></section>
+                <section class="method-formula"><h4>Estimating opposition-possession time</h4><p>Opposition-possession time is reconstructed from timestamped StatsBomb events. Live-event intervals are assigned to the team in possession and counted only while the player is on the pitch. Dead-ball periods are excluded, and an interval is capped at 15 seconds to prevent sparse event logging or stoppages from being treated as continuous possession.</p><p>This remains an estimate because event data records football actions and possession labels, rather than continuous tracking data for every second of the match.</p></section>
+                <section class="method-formula"><h4>Standardisation</h4><p>Each possession-adjusted event rate is standardized within the eligible Premier League striker cohort before the composite indices are calculated.</p><p class="formula"><i>z</i>(<i>r</i>) = (<i>r</i> − μ) / σ</p><dl class="variable-definitions"><dt><i>z</i>(<i>r</i>)</dt><dd>Standardized score for a possession-adjusted event rate.</dd><dt><i>r</i></dt><dd>Possession-adjusted event rate.</dd><dt>μ</dt><dd>Average rate within the eligible Premier League striker cohort.</dd><dt>σ</dt><dd>Standard deviation of that cohort’s rate.</dd></dl><p>Standardisation places different defensive actions on a common relative scale. A positive score indicates that a player performs the action more frequently than the cohort average after accounting for estimated time without the ball.</p></section>
+                <section class="method-formula"><h4>Pressing and Counterpressing Index</h4><p class="formula"><i>PCI</i> = <i>z</i>(<i>r</i><sub>pressure,30</sub>) + <i>z</i>(<i>r</i><sub>counterpress,30</sub>)</p><dl class="variable-definitions"><dt><i>PCI</i></dt><dd>Pressing and Counterpressing Index.</dd><dt><i>r</i><sub>pressure,30</sub></dt><dd>Possession-adjusted pressure rate.</dd><dt><i>r</i><sub>counterpress,30</sub></dt><dd>Possession-adjusted counterpressure rate.</dd></dl><p>This index measures a striker’s relative involvement in applying pressure during opposition possession and immediately after losing the ball. Counterpresses remain a separate component because they describe a distinct tactical behaviour: the immediate attempt to regain possession after a turnover.</p></section>
+                <section class="method-formula"><h4>Defensive Intervention Index</h4><p class="formula"><i>DII</i> = <i>z</i>(<i>r</i><sub>recovery,30</sub>) + <i>z</i>(<i>r</i><sub>interception,30</sub>) + <i>z</i>(<i>r</i><sub>duel,30</sub>) + 0.5<i>z</i>(<i>r</i><sub>block,30</sub>) − 0.5<i>z</i>(<i>r</i><sub>dribbled-past,30</sub>)</p><dl class="variable-definitions"><dt><i>DII</i></dt><dd>Defensive Intervention Index.</dd><dt><i>r</i><sub>recovery,30</sub></dt><dd>Possession-adjusted ball-recovery rate.</dd><dt><i>r</i><sub>interception,30</sub></dt><dd>Possession-adjusted interception rate.</dd><dt><i>r</i><sub>duel,30</sub></dt><dd>Possession-adjusted duel rate.</dd><dt><i>r</i><sub>block,30</sub></dt><dd>Possession-adjusted block rate.</dd><dt><i>r</i><sub>dribbled-past,30</sub></dt><dd>Possession-adjusted rate of being dribbled past.</dd></dl><p>This index captures defensive outcomes beyond pressing. Recoveries, interceptions and duels receive full weight; blocks receive half-weight because they are less common, while being dribbled past receives a half-weight penalty as a negative defensive outcome.</p></section>
+              </div>
+              <p class="method-boundary"><strong>Interpretation boundary.</strong> Both indices are within-cohort, possession-adjusted profiles rather than universal player ratings. The adjustment improves opportunity fairness, but it cannot fully equalize pressing scheme, field position or opponent buildup style.</p>
+              <figure class="report-figure">
+                <button id="openAyozeDefensiveVisual" type="button" aria-label="Enlarge the Premier League 2015/16 striker defensive profile"><img src="./visualizations/Premier%20League/premier_league_2015_2016_striker_defensive_scatter_1200.png?v=20260929-2" alt="Premier League 2015/16 striker defensive profile showing Ayoze Pérez among the strongest pressing and intervention forwards" loading="eager"></button>
+                <figcaption><span>The original per-90 profile remains as a visual reference; the report statistics and ranks use the possession-adjusted reconstruction. Click to enlarge.</span><span>StatsBomb · 2015/16</span></figcaption>
+              </figure>
+              <div class="finding-grid">
+                <article class="finding"><strong>20.40 pressures per 30 OOP minutes</strong><p>Ayoze remains fourth in the adjusted pressing and counterpressing index, so his ranking is not explained by Newcastle simply spending more time without the ball.</p></article>
+                <article class="finding"><strong>6.16 counterpressures per 30 OOP minutes</strong><p>His pressure volume is supported by immediate reactions after possession was lost, not only settled defensive actions.</p></article>
+                <article class="finding"><strong>5.03 recoveries per 30 OOP minutes</strong><p>Ayoze remains first in the adjusted intervention index, showing that the original outlier survives the opportunity correction.</p></article>
+                <article class="finding"><strong>852.8 estimated OOP minutes</strong><p>The denominator is reconstructed only from opposition-possession intervals while Ayoze was on the pitch.</p></article>
+              </div>
+              <p class="model-note"><strong>Metric boundary.</strong> These remain within-cohort standardized indexes, not universal player ratings. Possession adjustment improves opportunity fairness, but pressing scheme, field position and opponent buildup style still influence the actions available.</p>
+              <div class="report-links"><button class="btn primary" id="openAyozeInteractive" type="button">Explore interactive visual <span class="arrow">↗</span></button></div>
+            </div>
+          </section>
+
+          <section class="report-chapter" id="ayoze-report-analysis">
+            <span class="chapter-number">03 / Analysis</span>
+            <div class="chapter-body">
+              <h3>The connection is meaningful as a parallel—not as causal proof.</h3>
+              <p class="chapter-lede">The independent pieces align: your historical model identifies Pérez as an unusually active defensive striker; official tactical analysis now recognizes Dembélé for initiating pressure; and <a href="https://www.eldesmarque.com/futbol/internacional/20250924/dembele-alaba-ayoze-perez-antiguos-tuits_18_017531715.html" target="_blank" rel="noopener">secondary reporting on Dembélé’s 2014–15 social posts</a><sup><a href="#ayoze-source-3" aria-label="Citation 3">[3]</a></sup> documents repeated public praise for Pérez. Together they create a distinctive football story.</p>
+              <div class="finding-grid">
+                <article class="finding"><strong>What the data supports</strong><p>Ayoze was a two-way outlier in this defined striker cohort: fourth for pressing and first for interventions. The result is reproducible from the project’s event-data methodology.</p></article>
+                <article class="finding"><strong>What industry evidence supports</strong><p>Dembélé later became publicly recognized for leading an elite press, with UEFA and PSG describing both his tactical responsibility and personal commitment to the action.</p></article>
+                <article class="finding"><strong>What the admiration adds</strong><p>It supplies a human connection between two players whose reputations include intensive defensive work from advanced positions.</p></article>
+                <article class="finding"><strong>What it cannot establish</strong><p>There is no evidence here that Pérez taught, caused or directly shaped Dembélé’s pressing. Their teams, eras, roles and data definitions are different.</p></article>
+              </div>
+              <p class="model-note"><strong>Source caution.</strong> The Ayoze admiration story is supported by multiple reports describing resurfaced social posts, but the original posts are not preserved here as a primary archive. It also is not a tactical interview in which Dembélé names Pérez as the source of his pressing behaviour. “Publicly praised” or “publicly admired” is therefore more defensible than “tactical idol” or “influence.”</p>
+            </div>
+          </section>
+
+          <section class="report-chapter" id="ayoze-report-conclusion">
+            <span class="chapter-number">04 / Conclusion</span>
+            <div class="chapter-body">
+              <h3>An unexpected stylistic echo.</h3>
+              <div class="conclusion-panel">
+                <div class="conclusion-main"><strong>A player admired by Dembélé was already displaying the defensive-forward profile that would later become central to Dembélé’s own reputation.</strong><p>The value of the finding is not a claim of imitation. It is the convergence of a reproducible historical result, an unusual personal connection and modern tactical recognition. That combination turns Ayoze’s position on the chart into a stronger piece of football storytelling.</p></div>
+                <aside class="conclusion-next"><h4>How to strengthen the report</h4><ul><li>Apply the same event definitions to a full Dembélé season.</li><li>Compare both players using percentile ranks rather than raw cross-provider counts.</li><li>Video-code pressing triggers, direction and recoveries caused.</li><li>Preserve the original social posts or a stronger primary source for the admiration claim.</li></ul></aside>
+              </div>
+              <p class="model-note"><strong>Final interpretation.</strong> Report this as a narrative parallel supported by separate evidence streams—not as proof of a mentor, lineage or causal relationship.</p>
+              <div class="report-links"><a class="btn primary" href="https://www.uefa.com/uefachampionsleague/news/029a-1de9d126962d-87e708b9adaf-1000--champions-league-performance-insights-paris-pressing-and/" target="_blank" rel="noopener">UEFA pressing analysis <span class="arrow">↗</span></a><a class="btn" href="https://www.psg.fr/content/ousmane-dembele-la-meilleure-saison-de-ma-carriere-interview-paris-saint-germain-fc-bayern-munich-coupe-du-monde-des-clubs-de-la-fifa-2025" target="_blank" rel="noopener">PSG interview <span class="arrow">↗</span></a><a class="btn" href="https://www.eldesmarque.com/futbol/internacional/20250924/dembele-alaba-ayoze-perez-antiguos-tuits_18_017531715.html" target="_blank" rel="noopener">Ayoze admiration source <span class="arrow">↗</span></a></div>
+              <div class="report-sources" aria-labelledby="ayozeSourcesTitle">
+                <h4 id="ayozeSourcesTitle">External evidence and citations</h4>
+                <ol>
+                  <li id="ayoze-source-1"><strong>UEFA Technical Observer Group and UEFA analysis unit.</strong> “Champions League Performance Insights: Paris pressing and mobility inspire historic final victory,” 3 June 2025. Official tactical analysis; reports 14 Dembélé pressing actions in the final third.</li>
+                  <li id="ayoze-source-2"><strong>Paris Saint-Germain.</strong> “Ousmane Dembélé: La meilleure saison de ma carrière,” 2025. Primary club interview in which Dembélé explains his pressing positioning, intensity and enjoyment.</li>
+                  <li id="ayoze-source-3"><strong>ElDesmarque.</strong> “Se hacen virales los antiguos tuits de Dembélé hablando de Ayoze Pérez,” 24 September 2025. Secondary reporting on resurfaced posts from approximately 2014–15; suitable evidence of public praise, not tactical influence.</li>
+                  <li id="ayoze-source-4"><strong>Ballon d’Or.</strong> “Ballon d’Or Winners.” Official winners list confirming Ousmane Dembélé as the 2025 men’s Ballon d’Or recipient.</li>
+                </ol>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
 
       <section class="style-report reveal" id="possession-report" aria-labelledby="possessionReportTitle">
         <div class="report-opening">
@@ -1091,109 +1188,16 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
         </div>
       </section>
 
-      <section class="style-report reveal" id="ayoze-dembele-report" aria-labelledby="ayozeDembeleReportTitle">
-        <div class="report-opening">
-          <div><p class="kicker">Research report · Premier League · 2015/16</p><h2 id="ayozeDembeleReportTitle">The pressing forward before the spotlight.</h2></div>
-          <p class="report-question"><strong>Research question</strong>What does Ayoze Pérez’s 2015/16 defensive profile reveal about an unexpected football connection with Ousmane Dembélé?</p>
-        </div>
-
-        <button class="report-toggle" id="ayozeDembeleReportToggle" type="button" aria-expanded="false" aria-controls="ayozeDembeleReportContent" data-report-toggle><span data-report-label>Open full report</span><span class="report-toggle-icon" aria-hidden="true"></span></button>
-
-        <div class="report-content" id="ayozeDembeleReportContent" hidden>
-          <div class="report-answer"><span>Technical summary</span><p>The model identifies Ayoze Pérez as one of the league’s clearest two-way forwards. Dembélé’s documented admiration for Pérez and later recognition as an elite pressing leader create a compelling parallel—but not evidence of direct influence.</p></div>
-
-          <div class="report-metrics" aria-label="Ayoze Pérez defensive profile summary">
-            <div class="report-metric"><strong>36</strong><span>Eligible striker cohort</span></div>
-            <div class="report-metric"><strong>4th</strong><span>Pressing index rank</span></div>
-            <div class="report-metric"><strong>1st</strong><span>Intervention index rank</span></div>
-            <div class="report-metric"><strong>20.40</strong><span>Pressures per 30 OOP min</span></div>
-          </div>
-
-          <nav class="report-index" aria-label="Ayoze and Dembélé report chapters">
-            <a href="#ayoze-report-context">01 Introduction</a><a href="#ayoze-report-methodology">02 Methodology</a><a href="#ayoze-report-analysis">03 Analysis</a><a href="#ayoze-report-conclusion">04 Conclusion</a>
-          </nav>
-
-          <section class="report-chapter" id="ayoze-report-context">
-            <span class="chapter-number">01 / Introduction</span>
-            <div class="chapter-body">
-              <h3>From a Ballon d’Or season to an unexpected historical profile.</h3>
-              <p class="chapter-lede">When Ousmane Dembélé won the 2025 <a href="https://ballondor.com/winners" target="_blank" rel="noopener">Ballon d’Or</a><sup><a href="#ayoze-source-4" aria-label="Citation 4">[4]</a></sup> following the 2024/25 season, he was one of the clearest candidates for football’s most prestigious individual award. His goal and assist output was strong, although not exceptional when compared with recent attacking winners. Titles were also central to the result. What made his case distinctive, however, was the attention given to his defensive contribution from an advanced position. He was increasingly described in the press and on social media as a “pressing monster”, while analysis highlighted how his pressing and defensive actions helped Paris Saint-Germain complete a treble of Ligue 1, Coupe de France and Champions League titles.</p>
-              <p class="chapter-lede">This project began during exploratory work with the public StatsBomb database. I wanted to identify trends and potential areas for analysis, so I produced a plot of strikers with the highest pressing and defensive-action totals per 90 minutes. The result was surprising: Ayoze Pérez appeared first in the Defensive Intervention Index and fourth in the Pressing and Counterpressing Index. As a football fan who follows news and social-media discussion around the game, I immediately connected that result with older reports of Dembélé publicly praising Pérez.</p>
-              <p class="chapter-lede">The connection was unexpected because Dembélé could have publicly admired many more globally recognised attacking players, including Cristiano Ronaldo, Lionel Messi, Zlatan Ibrahimović, Robert Lewandowski or Harry Kane. This does not mean that Pérez directly shaped Dembélé’s style of play. Instead, it provides an interesting football narrative: a player whom Dembélé publicly admired had already produced an unusually strong defensive-forward profile in historical Premier League event data. The analysis therefore presents a reproducible data finding alongside that narrative connection, without claiming direct influence or causation.</p>
-              <div class="context-grid">
-                <article class="context-card"><span>Starting point</span><h4>A forward valued without the ball</h4><p>Dembélé’s recognition brought advanced defensive work into the discussion of elite attacking performance, rather than treating it as separate from attacking value.</p></article>
-                <article class="context-card"><span>Data discovery</span><h4>Ayoze as an outlier</h4><p>An exploratory striker plot identified Pérez as first for defensive interventions and fourth for pressing and counterpressing within the defined cohort.</p></article>
-                <article class="context-card"><span>Research boundary</span><h4>Parallel, not influence</h4><p>The reported admiration makes the result notable, but it cannot demonstrate that Pérez caused or taught Dembélé’s pressing behaviour.</p></article>
-              </div>
-            </div>
-          </section>
-
-          <section class="report-chapter" id="ayoze-report-methodology">
-            <span class="chapter-number">02 / Methodology</span>
-            <div class="chapter-body">
-              <h3>Defensive actions need a defensive-opportunity denominator.</h3>
-              <p class="chapter-lede">To create the Defensive Intervention Index and Pressing and Counterpressing Index, I did not simply divide defensive actions by total minutes played. A per-90 measure can overstate the defensive activity of a player whose team spends long periods without the ball, and understate the activity of a player at a possession-dominant team. Each event is therefore measured against the player’s estimated minutes spent out of possession while on the pitch. The resulting rates are then standardized within the 36-player Premier League striker cohort before the two indices are constructed.</p>
-              <div class="academic-method" aria-label="Possession-adjusted index methodology">
-                <section class="method-formula"><h4>Possession-adjusted event rate</h4><p>For each defensive event, the rate is calculated against estimated time spent without possession rather than total minutes played.</p><p class="formula"><i>r</i><sub>e,30</sub> = (<i>N</i><sub>e</sub> / <i>T</i><sub>opp</sub>) × 30</p><dl class="variable-definitions"><dt><i>r</i><sub>e,30</sub></dt><dd>Possession-adjusted rate for defensive event <i>e</i>, per 30 opposition-possession minutes.</dd><dt><i>N</i><sub>e</sub></dt><dd>Number of defensive events of type <i>e</i> recorded for the player.</dd><dt><i>T</i><sub>opp</sub></dt><dd>Player’s estimated minutes spent out of possession while on the pitch.</dd></dl><p>Using total minutes would not provide equal opportunity for every striker to defend. A player at a low-possession team can spend considerably longer without the ball than a player at a possession-dominant team. The denominator therefore represents the time in which defensive actions could plausibly occur.</p></section>
-                <section class="method-formula"><h4>Estimating opposition-possession time</h4><p>Opposition-possession time is reconstructed from timestamped StatsBomb events. Live-event intervals are assigned to the team in possession and counted only while the player is on the pitch. Dead-ball periods are excluded, and an interval is capped at 15 seconds to prevent sparse event logging or stoppages from being treated as continuous possession.</p><p>This remains an estimate because event data records football actions and possession labels, rather than continuous tracking data for every second of the match.</p></section>
-                <section class="method-formula"><h4>Standardisation</h4><p>Each possession-adjusted event rate is standardized within the eligible Premier League striker cohort before the composite indices are calculated.</p><p class="formula"><i>z</i>(<i>r</i>) = (<i>r</i> − μ) / σ</p><dl class="variable-definitions"><dt><i>z</i>(<i>r</i>)</dt><dd>Standardized score for a possession-adjusted event rate.</dd><dt><i>r</i></dt><dd>Possession-adjusted event rate.</dd><dt>μ</dt><dd>Average rate within the eligible Premier League striker cohort.</dd><dt>σ</dt><dd>Standard deviation of that cohort’s rate.</dd></dl><p>Standardisation places different defensive actions on a common relative scale. A positive score indicates that a player performs the action more frequently than the cohort average after accounting for estimated time without the ball.</p></section>
-                <section class="method-formula"><h4>Pressing and Counterpressing Index</h4><p class="formula"><i>PCI</i> = <i>z</i>(<i>r</i><sub>pressure,30</sub>) + <i>z</i>(<i>r</i><sub>counterpress,30</sub>)</p><dl class="variable-definitions"><dt><i>PCI</i></dt><dd>Pressing and Counterpressing Index.</dd><dt><i>r</i><sub>pressure,30</sub></dt><dd>Possession-adjusted pressure rate.</dd><dt><i>r</i><sub>counterpress,30</sub></dt><dd>Possession-adjusted counterpressure rate.</dd></dl><p>This index measures a striker’s relative involvement in applying pressure during opposition possession and immediately after losing the ball. Counterpresses remain a separate component because they describe a distinct tactical behaviour: the immediate attempt to regain possession after a turnover.</p></section>
-                <section class="method-formula"><h4>Defensive Intervention Index</h4><p class="formula"><i>DII</i> = <i>z</i>(<i>r</i><sub>recovery,30</sub>) + <i>z</i>(<i>r</i><sub>interception,30</sub>) + <i>z</i>(<i>r</i><sub>duel,30</sub>) + 0.5<i>z</i>(<i>r</i><sub>block,30</sub>) − 0.5<i>z</i>(<i>r</i><sub>dribbled-past,30</sub>)</p><dl class="variable-definitions"><dt><i>DII</i></dt><dd>Defensive Intervention Index.</dd><dt><i>r</i><sub>recovery,30</sub></dt><dd>Possession-adjusted ball-recovery rate.</dd><dt><i>r</i><sub>interception,30</sub></dt><dd>Possession-adjusted interception rate.</dd><dt><i>r</i><sub>duel,30</sub></dt><dd>Possession-adjusted duel rate.</dd><dt><i>r</i><sub>block,30</sub></dt><dd>Possession-adjusted block rate.</dd><dt><i>r</i><sub>dribbled-past,30</sub></dt><dd>Possession-adjusted rate of being dribbled past.</dd></dl><p>This index captures defensive outcomes beyond pressing. Recoveries, interceptions and duels receive full weight; blocks receive half-weight because they are less common, while being dribbled past receives a half-weight penalty as a negative defensive outcome.</p></section>
-              </div>
-              <p class="method-boundary"><strong>Interpretation boundary.</strong> Both indices are within-cohort, possession-adjusted profiles rather than universal player ratings. The adjustment improves opportunity fairness, but it cannot fully equalize pressing scheme, field position or opponent buildup style.</p>
-              <figure class="report-figure">
-                <button id="openAyozeDefensiveVisual" type="button" aria-label="Enlarge the Premier League 2015/16 striker defensive profile"><img src="file:///C:/Users/titoy/FootballAnalytics/visualizations/premier_league_2015_2016_striker_defensive_scatter_1200.png?v=20260929-2" alt="Premier League 2015/16 striker defensive profile showing Ayoze Pérez among the strongest pressing and intervention forwards" loading="eager"></button>
-                <figcaption><span>The original per-90 profile remains as a visual reference; the report statistics and ranks use the possession-adjusted reconstruction. Click to enlarge.</span><span>StatsBomb · 2015/16</span></figcaption>
-              </figure>
-              <div class="finding-grid">
-                <article class="finding"><strong>20.40 pressures per 30 OOP minutes</strong><p>Ayoze remains fourth in the adjusted pressing and counterpressing index, so his ranking is not explained by Newcastle simply spending more time without the ball.</p></article>
-                <article class="finding"><strong>6.16 counterpressures per 30 OOP minutes</strong><p>His pressure volume is supported by immediate reactions after possession was lost, not only settled defensive actions.</p></article>
-                <article class="finding"><strong>5.03 recoveries per 30 OOP minutes</strong><p>Ayoze remains first in the adjusted intervention index, showing that the original outlier survives the opportunity correction.</p></article>
-                <article class="finding"><strong>852.8 estimated OOP minutes</strong><p>The denominator is reconstructed only from opposition-possession intervals while Ayoze was on the pitch.</p></article>
-              </div>
-              <p class="model-note"><strong>Metric boundary.</strong> These remain within-cohort standardized indexes, not universal player ratings. Possession adjustment improves opportunity fairness, but pressing scheme, field position and opponent buildup style still influence the actions available.</p>
-              <div class="report-links"><button class="btn primary" id="openAyozeInteractive" type="button">Explore interactive visual <span class="arrow">↗</span></button></div>
-            </div>
-          </section>
-
-          <section class="report-chapter" id="ayoze-report-analysis">
-            <span class="chapter-number">03 / Analysis</span>
-            <div class="chapter-body">
-              <h3>The connection is meaningful as a parallel—not as causal proof.</h3>
-              <p class="chapter-lede">The independent pieces align: your historical model identifies Pérez as an unusually active defensive striker; official tactical analysis now recognizes Dembélé for initiating pressure; and <a href="https://www.eldesmarque.com/futbol/internacional/20250924/dembele-alaba-ayoze-perez-antiguos-tuits_18_017531715.html" target="_blank" rel="noopener">secondary reporting on Dembélé’s 2014–15 social posts</a><sup><a href="#ayoze-source-3" aria-label="Citation 3">[3]</a></sup> documents repeated public praise for Pérez. Together they create a distinctive football story.</p>
-              <div class="finding-grid">
-                <article class="finding"><strong>What the data supports</strong><p>Ayoze was a two-way outlier in this defined striker cohort: fourth for pressing and first for interventions. The result is reproducible from the project’s event-data methodology.</p></article>
-                <article class="finding"><strong>What industry evidence supports</strong><p>Dembélé later became publicly recognized for leading an elite press, with UEFA and PSG describing both his tactical responsibility and personal commitment to the action.</p></article>
-                <article class="finding"><strong>What the admiration adds</strong><p>It supplies a human connection between two players whose reputations include intensive defensive work from advanced positions.</p></article>
-                <article class="finding"><strong>What it cannot establish</strong><p>There is no evidence here that Pérez taught, caused or directly shaped Dembélé’s pressing. Their teams, eras, roles and data definitions are different.</p></article>
-              </div>
-              <p class="model-note"><strong>Source caution.</strong> The Ayoze admiration story is supported by multiple reports describing resurfaced social posts, but the original posts are not preserved here as a primary archive. It also is not a tactical interview in which Dembélé names Pérez as the source of his pressing behaviour. “Publicly praised” or “publicly admired” is therefore more defensible than “tactical idol” or “influence.”</p>
-            </div>
-          </section>
-
-          <section class="report-chapter" id="ayoze-report-conclusion">
-            <span class="chapter-number">04 / Conclusion</span>
-            <div class="chapter-body">
-              <h3>An unexpected stylistic echo.</h3>
-              <div class="conclusion-panel">
-                <div class="conclusion-main"><strong>A player admired by Dembélé was already displaying the defensive-forward profile that would later become central to Dembélé’s own reputation.</strong><p>The value of the finding is not a claim of imitation. It is the convergence of a reproducible historical result, an unusual personal connection and modern tactical recognition. That combination turns Ayoze’s position on the chart into a stronger piece of football storytelling.</p></div>
-                <aside class="conclusion-next"><h4>How to strengthen the report</h4><ul><li>Apply the same event definitions to a full Dembélé season.</li><li>Compare both players using percentile ranks rather than raw cross-provider counts.</li><li>Video-code pressing triggers, direction and recoveries caused.</li><li>Preserve the original social posts or a stronger primary source for the admiration claim.</li></ul></aside>
-              </div>
-              <p class="model-note"><strong>Final interpretation.</strong> Report this as a narrative parallel supported by separate evidence streams—not as proof of a mentor, lineage or causal relationship.</p>
-              <div class="report-links"><a class="btn primary" href="https://www.uefa.com/uefachampionsleague/news/029a-1de9d126962d-87e708b9adaf-1000--champions-league-performance-insights-paris-pressing-and/" target="_blank" rel="noopener">UEFA pressing analysis <span class="arrow">↗</span></a><a class="btn" href="https://www.psg.fr/content/ousmane-dembele-la-meilleure-saison-de-ma-carriere-interview-paris-saint-germain-fc-bayern-munich-coupe-du-monde-des-clubs-de-la-fifa-2025" target="_blank" rel="noopener">PSG interview <span class="arrow">↗</span></a><a class="btn" href="https://www.eldesmarque.com/futbol/internacional/20250924/dembele-alaba-ayoze-perez-antiguos-tuits_18_017531715.html" target="_blank" rel="noopener">Ayoze admiration source <span class="arrow">↗</span></a></div>
-              <div class="report-sources" aria-labelledby="ayozeSourcesTitle">
-                <h4 id="ayozeSourcesTitle">External evidence and citations</h4>
-                <ol>
-                  <li id="ayoze-source-1"><strong>UEFA Technical Observer Group and UEFA analysis unit.</strong> “Champions League Performance Insights: Paris pressing and mobility inspire historic final victory,” 3 June 2025. Official tactical analysis; reports 14 Dembélé pressing actions in the final third.</li>
-                  <li id="ayoze-source-2"><strong>Paris Saint-Germain.</strong> “Ousmane Dembélé: La meilleure saison de ma carrière,” 2025. Primary club interview in which Dembélé explains his pressing positioning, intensity and enjoyment.</li>
-                  <li id="ayoze-source-3"><strong>ElDesmarque.</strong> “Se hacen virales los antiguos tuits de Dembélé hablando de Ayoze Pérez,” 24 September 2025. Secondary reporting on resurfaced posts from approximately 2014–15; suitable evidence of public praise, not tactical influence.</li>
-                  <li id="ayoze-source-4"><strong>Ballon d’Or.</strong> “Ballon d’Or Winners.” Official winners list confirming Ousmane Dembélé as the 2025 men’s Ballon d’Or recipient.</li>
-                </ol>
-              </div>
-            </div>
-          </section>
-        </div>
-      </section>
+      <div class="section-head reveal">
+        <div><p class="kicker">The project archive</p><h2>Every competition.<br>One evolving library.</h2></div>
+        <p class="section-note">Browse by competition or search for a player, season or analytical theme. Interactive projects open without leaving the archive.</p>
+      </div>
+      <div class="toolbar reveal">
+        <label class="search-wrap"><span hidden>Search projects</span><input class="search" id="search" type="search" placeholder="Search players, seasons, metrics…" autocomplete="off"></label>
+        <div class="filters" id="filters" aria-label="Filter by competition"></div>
+      </div>
+      <div id="archive" aria-live="polite"></div>
+      <div class="empty" id="empty" hidden>No projects match that search. Try another player, season or competition.</div>
 
       <section class="about reveal" id="about">
         <div><p class="kicker">The approach</p><h2>Data with a point of view.</h2><p>Marco FutStats turns event data into clear visual stories. The aim is not to flatten football into a single number, but to make tactical tendencies, player roles and outlier performances easier to see—and more interesting to debate.</p></div>
@@ -1319,8 +1323,8 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
         id: 'premier-1516-strikers', competition: 'Premier League', order: 3, season: '2015/16', yearOrder: 2015,
         title: 'Striker Defensive Profile', type: 'Player profiling', format: 'Interactive + PNG',
         description: 'Possession-adjusted defensive rates separate striker behaviour from the amount of time each team spends without the ball.',
-        image: 'file:///C:/Users/titoy/FootballAnalytics/visualizations/premier_league_2015_2016_striker_defensive_scatter_1200.png?v=20260929-2',
-        interactive: 'file:///C:/Users/titoy/FootballAnalytics/visualizations/premier_league_2015_2016_striker_defensive_scatter_1200_interactive.html?v=20260929-2',
+        image: './visualizations/Premier%20League/premier_league_2015_2016_striker_defensive_scatter_1200.png?v=20260929-2',
+        interactive: './visualizations/Premier%20League/premier_league_2015_2016_striker_defensive_scatter_1200_interactive.html?v=20260929-2',
         report: '#striker-output-report',
         tags: ['Ayoze Pérez', 'Firmino', 'Kane', 'Vardy', 'Agüero', 'goals', 'possession adjusted', 'pressing', 'counterpressing', 'strikers', 'defensive']
       },

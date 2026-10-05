@@ -6,3 +6,9 @@
 !/assets/**
 !/visualizations/
 !/visualizations/**
+
+!/notebooks/
+!/notebooks/striker_defensive_output_analysis.ipynb
+!/scripts/
+!/scripts/striker_defensive_output_analysis/
+!/scripts/striker_defensive_output_analysis/STRIKER_DEFENSIVE_OUTPUT_ANALYSIS.md

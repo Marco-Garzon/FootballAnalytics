@@ -545,6 +545,25 @@ h2 {
 .method-step span { color: var(--signal); font: 600 9px var(--mono); }
 .method-step h4 { margin: 0 0 7px; font-size: 14px; }
 .method-step p { margin: 0; color: var(--paper-dim); font-size: 11px; line-height: 1.7; }
+.formula-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 28px 0 0; border-top: 1px solid var(--line-strong); border-left: 1px solid var(--line-strong); }
+.formula-card { padding: 22px; border-right: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
+.formula-card.wide { grid-column: span 2; background: rgba(215,255,98,.025); }
+.formula-card span { color: var(--signal); font: 600 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.formula-card h4 { margin: 12px 0 10px; font-size: 15px; }
+.formula { margin: 0 0 12px; color: var(--chalk); font: 500 16px/1.55 var(--mono); letter-spacing: -.025em; }
+.formula-card p { max-width: 760px; margin: 0; color: var(--paper-dim); font-size: 11px; line-height: 1.72; }
+.academic-method { max-width: 930px; margin-top: 30px; }
+.method-formula { padding: 29px 0 31px; border-top: 1px solid var(--line-strong); }
+.method-formula:last-child { border-bottom: 1px solid var(--line-strong); }
+.method-formula h4 { margin: 0 0 14px; color: var(--paper); font-size: 18px; }
+.method-formula > p { margin: 0; color: var(--paper-dim); font-size: 12px; line-height: 1.8; }
+.method-formula > p + p:not(.formula) { margin-top: 13px; }
+.method-formula .formula { margin: 22px auto 18px; color: var(--chalk); font: 500 19px/1.65 var(--mono); text-align: center; }
+.variable-definitions { display: grid; grid-template-columns: max-content 1fr; column-gap: 18px; row-gap: 8px; max-width: 740px; margin: 0 auto 20px; padding: 0; }
+.variable-definitions dt { color: var(--chalk); font: 500 12px/1.5 var(--mono); text-align: right; }
+.variable-definitions dd { margin: 0; color: var(--paper-dim); font-size: 11px; line-height: 1.65; }
+.method-boundary { max-width: 930px; margin: 0; padding: 24px 0 0; color: var(--paper-dim); font-size: 11px; line-height: 1.8; }
+.method-boundary strong { color: var(--paper); }
 .model-note { margin-top: 24px; padding: 18px 20px; color: var(--paper-dim); border-left: 3px solid var(--signal); background: rgba(255,90,54,.045); font-size: 11px; line-height: 1.75; }
 .model-note strong { color: var(--paper); }
 .report-figure { margin: 34px 0 0; border: 1px solid var(--line-strong); background: #f4f3ee; }
@@ -802,6 +821,10 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
   .report-chapter { grid-template-columns: 1fr; gap: 13px; padding-top: 56px; }
   .context-grid { grid-template-columns: 1fr; }
   .method-steps { grid-template-columns: 1fr; }
+  .formula-grid { grid-template-columns: 1fr; }
+  .formula-card.wide { grid-column: span 1; }
+  .variable-definitions { grid-template-columns: 1fr; gap: 3px; }
+  .variable-definitions dt { text-align: left; }
   .method-step,
   .method-step:nth-child(odd),
   .method-step:nth-child(even) { padding: 21px 0; border-right: 0; }
@@ -938,7 +961,7 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
             <h3>League identity changes the mix less than expected.</h3>
             <p class="chapter-lede">Read each heatmap row as the composition of one league’s eligible possessions. The same three styles dominate every competition, and the range between leagues is narrow. The visual therefore supports a conclusion of <strong>subtle variation inside a common tactical structure</strong>.</p>
             <figure class="report-figure">
-              <button id="openPossessionHeatmap" type="button" aria-label="Enlarge the league possession-style heatmap"><img src="./visualizations/league_style_heatmap.png" alt="Heatmap comparing the share of six discovered possession styles across England, France, Germany, Italy and Spain" loading="lazy"></button>
+              <button id="openPossessionHeatmap" type="button" aria-label="Enlarge the league possession-style heatmap"><img src="./visualizations/league_style_heatmap.png" alt="Heatmap comparing the share of six discovered possession styles across England, France, Germany, Italy and Spain" loading="eager"></button>
               <figcaption><span>Share of eligible open-play possessions assigned to each discovered style, by league. Click to enlarge.</span><span>Wyscout · 2017/18</span></figcaption>
             </figure>
 
@@ -979,6 +1002,95 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
         </div>
       </section>
 
+      <section class="style-report reveal" id="striker-output-report" aria-labelledby="strikerOutputReportTitle">
+        <div class="report-opening">
+          <div><p class="kicker">Research report · Premier League & La Liga · 2015/16</p><h2 id="strikerOutputReportTitle">Do high-scoring strikers defend less?</h2></div>
+          <p class="report-question"><strong>Research question</strong>After adjusting for time spent without the ball, is striker defensive involvement associated with goal output and final team position?</p>
+        </div>
+
+        <button class="report-toggle" id="strikerOutputReportToggle" type="button" aria-expanded="false" aria-controls="strikerOutputReportContent" data-report-toggle><span data-report-label>Open full report</span><span class="report-toggle-icon" aria-hidden="true"></span></button>
+
+        <div class="report-content" id="strikerOutputReportContent" hidden>
+          <div class="report-answer"><span>Technical summary</span><p>The apparent relationship weakens after defensive opportunity is equalized. Elite scorers often record fewer actions per 90 partly because stronger teams spend less time without the ball—not simply because their strikers contribute less when defending.</p></div>
+
+          <div class="report-metrics" aria-label="Possession-adjusted striker study scope">
+            <div class="report-metric"><strong>69</strong><span>Eligible strikers</span></div>
+            <div class="report-metric"><strong>760</strong><span>Matches processed</span></div>
+            <div class="report-metric"><strong>30</strong><span>OOP-minute rate</span></div>
+            <div class="report-metric"><strong>≥ .998</strong><span>Timing-rank stability</span></div>
+          </div>
+
+          <nav class="report-index" aria-label="Possession-adjusted striker report chapters">
+            <a href="#striker-report-context">01 Context</a><a href="#striker-report-methodology">02 Methodology</a><a href="#striker-report-analysis">03 Analysis</a><a href="#striker-report-conclusion">04 Conclusion</a>
+          </nav>
+
+          <section class="report-chapter" id="striker-report-context">
+            <span class="chapter-number">01 / Context</span>
+            <div class="chapter-body">
+              <h3>Raw defensive volume confuses behaviour with opportunity.</h3>
+              <p class="chapter-lede">Several of the season’s leading scorers sit low on the original defensive charts. That could reflect individual role, but it could also reflect team strength: a striker cannot make defensive actions while his own team controls the ball. The analysis therefore asks whether the pattern remains after giving every player the same estimated amount of time without possession.</p>
+              <div class="context-grid">
+                <article class="context-card"><span>Population</span><h4>Two complete leagues</h4><p>Thirty-six Premier League and thirty-three La Liga central forwards with at least 1,200 minutes are evaluated under the same definitions.</p></article>
+                <article class="context-card"><span>Outcome</span><h4>Goals per 90</h4><p>Goals are taken directly from StatsBomb shot outcomes; final league positions are reconstructed from all 380 results in each competition.</p></article>
+                <article class="context-card"><span>Interpretation</span><h4>Association, not effort</h4><p>The rate describes recorded defensive involvement under estimated exposure. It does not measure motivation or establish that scoring changes defensive behaviour.</p></article>
+              </div>
+            </div>
+          </section>
+
+          <section class="report-chapter" id="striker-report-methodology">
+            <span class="chapter-number">02 / Methodology</span>
+            <div class="chapter-body">
+              <h3>Choose a denominator that represents time available to defend.</h3>
+              <p class="chapter-lede">The primary metric is <strong>defensive actions per 30 estimated opposition-possession minutes</strong>. It combines pressures, duels, ball recoveries, interceptions and blocks, then divides by the reconstructed time the player’s team spent without the ball while he was on the pitch.</p>
+              <div class="method-steps">
+                <article class="method-step"><span>01</span><div><h4>Why not per 90?</h4><p>Per 90 corrects for playing time but not opportunity. A striker in a possession-dominant team naturally has fewer defensive minutes available.</p></div></article>
+                <article class="method-step"><span>02</span><div><h4>Why not per 100 possessions?</h4><p>Possession counts treat a five-second sequence and a two-minute sequence as equal, although the longer possession creates far more defensive exposure.</p></div></article>
+                <article class="method-step"><span>03</span><div><h4>Why opposition-possession time?</h4><p>Duration preserves the unequal length of possessions. Scaling to 30 minutes makes players comparable over the same estimated time without the ball.</p></div></article>
+                <article class="method-step"><span>04</span><div><h4>Reconstruct the clock</h4><p>Timestamped live-event intervals are assigned to the recorded possession team and intersected with each player’s on-pitch interval. Dead-ball gaps are excluded.</p></div></article>
+                <article class="method-step"><span>05</span><div><h4>Bound uncertainty</h4><p>Intervals are capped at 15 seconds so stoppages or sparse logging do not become possession time. Ten- and twenty-second caps provide sensitivity checks.</p></div></article>
+                <article class="method-step"><span>06</span><div><h4>Test the relationships</h4><p>League-specific Spearman correlations compare the adjusted activity, pressing and intervention measures with goals per 90 and final team position.</p></div></article>
+              </div>
+              <p class="model-note"><strong>Metric-design principle.</strong> The denominator should match the opportunity required for the numerator. Opposition-possession time is estimated because event data records actions and possession labels—not a continuous tracking-data stopwatch.</p>
+            </div>
+          </section>
+
+          <section class="report-chapter" id="striker-report-analysis">
+            <span class="chapter-number">03 / Analysis</span>
+            <div class="chapter-body">
+              <h3>Opportunity explains part of the original pattern.</h3>
+              <p class="chapter-lede">The negative goals relationship remains in both leagues, but becomes weaker after the adjustment. The evidence therefore supports a restrained conclusion: team possession contributed to the low per-90 defensive totals of several leading scorers, while tactical role and individual behaviour still create meaningful exceptions.</p>
+              <figure class="report-figure">
+                <button id="openStrikerAdjustedVisual" type="button" aria-label="Enlarge the possession-adjusted striker defensive activity chart"><img src="./visualizations/striker_defensive_output_relationships.png" alt="Scatter plots comparing goals per 90 with defensive actions per 30 estimated opposition-possession minutes in the Premier League and La Liga" loading="eager"></button>
+                <figcaption><span>Goals per 90 versus defensive activity per 30 estimated opposition-possession minutes. Point colour shows final team position. Click to enlarge.</span><span>StatsBomb · 2015/16</span></figcaption>
+              </figure>
+              <div class="finding-grid">
+                <article class="finding"><strong>Premier League: −0.11</strong><p>The adjusted activity–goals correlation is weaker than the original per-90 value of −0.17. The team-position relationship falls from +0.20 to +0.07.</p></article>
+                <article class="finding"><strong>La Liga: −0.16</strong><p>The adjusted activity–goals correlation is weaker than the original −0.23. The team-position relationship falls from +0.33 to +0.26.</p></article>
+                <article class="finding"><strong>Roles still matter.</strong><p>Griezmann remains a strong defensive contributor alongside substantial goal output, while several elite scorers remain low after adjustment.</p></article>
+                <article class="finding"><strong>The timing choice is stable.</strong><p>Player rankings correlate at 0.998 or higher across 10-, 15- and 20-second interval caps, so the ordering is not driven by one arbitrary threshold.</p></article>
+              </div>
+              <figure class="report-figure">
+                <button id="openStrikerCorrelationHeatmap" type="button" aria-label="Enlarge the possession-adjusted striker correlation heatmap"><img src="./visualizations/striker_defensive_output_correlation_heatmap.png" alt="Heatmap of league-specific correlations between possession-adjusted defensive measures, goals per 90 and final team position" loading="eager"></button>
+                <figcaption><span>Spearman rank correlations for adjusted activity, pressing and interventions. Positive position values mean more activity among lower-finishing clubs.</span><span>StatsBomb · 2015/16</span></figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section class="report-chapter" id="striker-report-conclusion">
+            <span class="chapter-number">04 / Conclusion</span>
+            <div class="chapter-body">
+              <h3>Less opportunity—not simply less defending.</h3>
+              <div class="conclusion-panel">
+                <div class="conclusion-main"><strong>Leading scorers tended to record less defensive activity, but the association is weak and becomes smaller after accounting for time without the ball.</strong><p>The original per-90 view overstated part of the relationship because it compared players with unequal defensive exposure. The adjusted metric produces a fairer role comparison while preserving genuine tactical outliers.</p></div>
+                <aside class="conclusion-next"><h4>What should come next</h4><ul><li>Add opponent buildup passes and field position.</li><li>Model goals and team strength together.</li><li>Cluster uncertainty by club.</li><li>Compare adjusted rankings with video-coded pressing roles.</li></ul></aside>
+              </div>
+              <p class="model-note"><strong>Limitations.</strong> Opposition-possession minutes are event-derived estimates; the adjustment does not equalize field position, pressing scheme or opponent buildup style. Results are descriptive and league-specific.</p>
+              <div class="report-links"><a class="btn primary" href="./notebooks/striker_defensive_output_analysis.ipynb" target="_blank" rel="noopener">Open executed notebook <span class="arrow">↗</span></a><a class="btn" href="./scripts/striker_defensive_output_analysis/STRIKER_DEFENSIVE_OUTPUT_ANALYSIS.md" target="_blank" rel="noopener">Methodology and results <span class="arrow">↗</span></a><a class="btn" href="#ayoze-dembele-report">Read the Ayoze case study <span class="arrow">↓</span></a></div>
+            </div>
+          </section>
+        </div>
+      </section>
+
       <section class="style-report reveal" id="ayoze-dembele-report" aria-labelledby="ayozeDembeleReportTitle">
         <div class="report-opening">
           <div><p class="kicker">Research report · Premier League · 2015/16</p><h2 id="ayozeDembeleReportTitle">The pressing forward before the spotlight.</h2></div>
@@ -994,22 +1106,24 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
             <div class="report-metric"><strong>36</strong><span>Eligible striker cohort</span></div>
             <div class="report-metric"><strong>4th</strong><span>Pressing index rank</span></div>
             <div class="report-metric"><strong>1st</strong><span>Intervention index rank</span></div>
-            <div class="report-metric"><strong>24.27</strong><span>Pressures per 90</span></div>
+            <div class="report-metric"><strong>20.40</strong><span>Pressures per 30 OOP min</span></div>
           </div>
 
           <nav class="report-index" aria-label="Ayoze and Dembélé report chapters">
-            <a href="#ayoze-report-context">01 Context</a><a href="#ayoze-report-methodology">02 Methodology</a><a href="#ayoze-report-analysis">03 Analysis</a><a href="#ayoze-report-conclusion">04 Conclusion</a>
+            <a href="#ayoze-report-context">01 Introduction</a><a href="#ayoze-report-methodology">02 Methodology</a><a href="#ayoze-report-analysis">03 Analysis</a><a href="#ayoze-report-conclusion">04 Conclusion</a>
           </nav>
 
           <section class="report-chapter" id="ayoze-report-context">
-            <span class="chapter-number">01 / Context</span>
+            <span class="chapter-number">01 / Introduction</span>
             <div class="chapter-body">
-              <h3>Pressing has become part of how elite forwards are valued.</h3>
-              <p class="chapter-lede">Ousmane Dembélé’s recent reputation is not based on attacking output alone. <a href="https://www.uefa.com/uefachampionsleague/news/029a-1de9d126962d-87e708b9adaf-1000--champions-league-performance-insights-paris-pressing-and/" target="_blank" rel="noopener">UEFA’s technical analysis</a><sup><a href="#ayoze-source-1" aria-label="Citation 1">[1]</a></sup> called him Paris Saint-Germain’s “presser-in-chief” and presented his work without the ball as leadership. In an <a href="https://www.psg.fr/content/ousmane-dembele-la-meilleure-saison-de-ma-carriere-interview-paris-saint-germain-fc-bayern-munich-coupe-du-monde-des-clubs-de-la-fifa-2025" target="_blank" rel="noopener">official PSG interview</a><sup><a href="#ayoze-source-2" aria-label="Citation 2">[2]</a></sup>, Dembélé described denying goalkeepers time to build and explained that he genuinely enjoys pressing.</p>
+              <h3>From a Ballon d’Or season to an unexpected historical profile.</h3>
+              <p class="chapter-lede">When Ousmane Dembélé won the 2025 <a href="https://ballondor.com/winners" target="_blank" rel="noopener">Ballon d’Or</a><sup><a href="#ayoze-source-4" aria-label="Citation 4">[4]</a></sup> following the 2024/25 season, he was one of the clearest candidates for football’s most prestigious individual award. His goal and assist output was strong, although not exceptional when compared with recent attacking winners. Titles were also central to the result. What made his case distinctive, however, was the attention given to his defensive contribution from an advanced position. He was increasingly described in the press and on social media as a “pressing monster”, while analysis highlighted how his pressing and defensive actions helped Paris Saint-Germain complete a treble of Ligue 1, Coupe de France and Champions League titles.</p>
+              <p class="chapter-lede">This project began during exploratory work with the public StatsBomb database. I wanted to identify trends and potential areas for analysis, so I produced a plot of strikers with the highest pressing and defensive-action totals per 90 minutes. The result was surprising: Ayoze Pérez appeared first in the Defensive Intervention Index and fourth in the Pressing and Counterpressing Index. As a football fan who follows news and social-media discussion around the game, I immediately connected that result with older reports of Dembélé publicly praising Pérez.</p>
+              <p class="chapter-lede">The connection was unexpected because Dembélé could have publicly admired many more globally recognised attacking players, including Cristiano Ronaldo, Lionel Messi, Zlatan Ibrahimović, Robert Lewandowski or Harry Kane. This does not mean that Pérez directly shaped Dembélé’s style of play. Instead, it provides an interesting football narrative: a player whom Dembélé publicly admired had already produced an unusually strong defensive-forward profile in historical Premier League event data. The analysis therefore presents a reproducible data finding alongside that narrative connection, without claiming direct influence or causation.</p>
               <div class="context-grid">
-                <article class="context-card"><span>Modern role</span><h4>The forward as first defender</h4><p>Pressure direction, counterpressing and recovery work can shape an entire team’s defensive structure before a tackle is made.</p></article>
-                <article class="context-card"><span>Historical lens</span><h4>Premier League 2015/16</h4><p>The profile asks whether event data could already identify forwards contributing unusually high defensive activity.</p></article>
-                <article class="context-card"><span>Narrative link</span><h4>An unexpected admiration</h4><p>Reports resurfacing Dembélé’s older social posts describe a notable admiration for Ayoze Pérez, making the data result especially intriguing.</p></article>
+                <article class="context-card"><span>Starting point</span><h4>A forward valued without the ball</h4><p>Dembélé’s recognition brought advanced defensive work into the discussion of elite attacking performance, rather than treating it as separate from attacking value.</p></article>
+                <article class="context-card"><span>Data discovery</span><h4>Ayoze as an outlier</h4><p>An exploratory striker plot identified Pérez as first for defensive interventions and fourth for pressing and counterpressing within the defined cohort.</p></article>
+                <article class="context-card"><span>Research boundary</span><h4>Parallel, not influence</h4><p>The reported admiration makes the result notable, but it cannot demonstrate that Pérez caused or taught Dembélé’s pressing behaviour.</p></article>
               </div>
             </div>
           </section>
@@ -1017,19 +1131,27 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
           <section class="report-chapter" id="ayoze-report-methodology">
             <span class="chapter-number">02 / Methodology</span>
             <div class="chapter-body">
-              <h3>Ayoze stands out on two different defensive dimensions.</h3>
-              <p class="chapter-lede">The comparison contains 36 eligible Premier League strikers and uses per-90 rates to reduce differences in playing time. The horizontal index combines standardized pressure and counterpressure rates. The vertical index combines recoveries, interceptions and duels, gives blocks half-weight, and subtracts half the standardized dribbled-past rate.</p>
+              <h3>Defensive actions need a defensive-opportunity denominator.</h3>
+              <p class="chapter-lede">To create the Defensive Intervention Index and Pressing and Counterpressing Index, I did not simply divide defensive actions by total minutes played. A per-90 measure can overstate the defensive activity of a player whose team spends long periods without the ball, and understate the activity of a player at a possession-dominant team. Each event is therefore measured against the player’s estimated minutes spent out of possession while on the pitch. The resulting rates are then standardized within the 36-player Premier League striker cohort before the two indices are constructed.</p>
+              <div class="academic-method" aria-label="Possession-adjusted index methodology">
+                <section class="method-formula"><h4>Possession-adjusted event rate</h4><p>For each defensive event, the rate is calculated against estimated time spent without possession rather than total minutes played.</p><p class="formula"><i>r</i><sub>e,30</sub> = (<i>N</i><sub>e</sub> / <i>T</i><sub>opp</sub>) × 30</p><dl class="variable-definitions"><dt><i>r</i><sub>e,30</sub></dt><dd>Possession-adjusted rate for defensive event <i>e</i>, per 30 opposition-possession minutes.</dd><dt><i>N</i><sub>e</sub></dt><dd>Number of defensive events of type <i>e</i> recorded for the player.</dd><dt><i>T</i><sub>opp</sub></dt><dd>Player’s estimated minutes spent out of possession while on the pitch.</dd></dl><p>Using total minutes would not provide equal opportunity for every striker to defend. A player at a low-possession team can spend considerably longer without the ball than a player at a possession-dominant team. The denominator therefore represents the time in which defensive actions could plausibly occur.</p></section>
+                <section class="method-formula"><h4>Estimating opposition-possession time</h4><p>Opposition-possession time is reconstructed from timestamped StatsBomb events. Live-event intervals are assigned to the team in possession and counted only while the player is on the pitch. Dead-ball periods are excluded, and an interval is capped at 15 seconds to prevent sparse event logging or stoppages from being treated as continuous possession.</p><p>This remains an estimate because event data records football actions and possession labels, rather than continuous tracking data for every second of the match.</p></section>
+                <section class="method-formula"><h4>Standardisation</h4><p>Each possession-adjusted event rate is standardized within the eligible Premier League striker cohort before the composite indices are calculated.</p><p class="formula"><i>z</i>(<i>r</i>) = (<i>r</i> − μ) / σ</p><dl class="variable-definitions"><dt><i>z</i>(<i>r</i>)</dt><dd>Standardized score for a possession-adjusted event rate.</dd><dt><i>r</i></dt><dd>Possession-adjusted event rate.</dd><dt>μ</dt><dd>Average rate within the eligible Premier League striker cohort.</dd><dt>σ</dt><dd>Standard deviation of that cohort’s rate.</dd></dl><p>Standardisation places different defensive actions on a common relative scale. A positive score indicates that a player performs the action more frequently than the cohort average after accounting for estimated time without the ball.</p></section>
+                <section class="method-formula"><h4>Pressing and Counterpressing Index</h4><p class="formula"><i>PCI</i> = <i>z</i>(<i>r</i><sub>pressure,30</sub>) + <i>z</i>(<i>r</i><sub>counterpress,30</sub>)</p><dl class="variable-definitions"><dt><i>PCI</i></dt><dd>Pressing and Counterpressing Index.</dd><dt><i>r</i><sub>pressure,30</sub></dt><dd>Possession-adjusted pressure rate.</dd><dt><i>r</i><sub>counterpress,30</sub></dt><dd>Possession-adjusted counterpressure rate.</dd></dl><p>This index measures a striker’s relative involvement in applying pressure during opposition possession and immediately after losing the ball. Counterpresses remain a separate component because they describe a distinct tactical behaviour: the immediate attempt to regain possession after a turnover.</p></section>
+                <section class="method-formula"><h4>Defensive Intervention Index</h4><p class="formula"><i>DII</i> = <i>z</i>(<i>r</i><sub>recovery,30</sub>) + <i>z</i>(<i>r</i><sub>interception,30</sub>) + <i>z</i>(<i>r</i><sub>duel,30</sub>) + 0.5<i>z</i>(<i>r</i><sub>block,30</sub>) − 0.5<i>z</i>(<i>r</i><sub>dribbled-past,30</sub>)</p><dl class="variable-definitions"><dt><i>DII</i></dt><dd>Defensive Intervention Index.</dd><dt><i>r</i><sub>recovery,30</sub></dt><dd>Possession-adjusted ball-recovery rate.</dd><dt><i>r</i><sub>interception,30</sub></dt><dd>Possession-adjusted interception rate.</dd><dt><i>r</i><sub>duel,30</sub></dt><dd>Possession-adjusted duel rate.</dd><dt><i>r</i><sub>block,30</sub></dt><dd>Possession-adjusted block rate.</dd><dt><i>r</i><sub>dribbled-past,30</sub></dt><dd>Possession-adjusted rate of being dribbled past.</dd></dl><p>This index captures defensive outcomes beyond pressing. Recoveries, interceptions and duels receive full weight; blocks receive half-weight because they are less common, while being dribbled past receives a half-weight penalty as a negative defensive outcome.</p></section>
+              </div>
+              <p class="method-boundary"><strong>Interpretation boundary.</strong> Both indices are within-cohort, possession-adjusted profiles rather than universal player ratings. The adjustment improves opportunity fairness, but it cannot fully equalize pressing scheme, field position or opponent buildup style.</p>
               <figure class="report-figure">
-                <button id="openAyozeDefensiveVisual" type="button" aria-label="Enlarge the Premier League 2015/16 striker defensive profile"><img src="./visualizations/Premier%20League/premier_league_2015_2016_striker_defensive_scatter_1200.png" alt="Premier League 2015/16 striker defensive profile showing Ayoze Pérez among the strongest pressing and intervention forwards" loading="lazy"></button>
-                <figcaption><span>Pressing and counterpressing index versus defensive intervention index for 36 eligible Premier League strikers. Click to enlarge.</span><span>StatsBomb · 2015/16</span></figcaption>
+                <button id="openAyozeDefensiveVisual" type="button" aria-label="Enlarge the Premier League 2015/16 striker defensive profile"><img src="file:///C:/Users/titoy/FootballAnalytics/visualizations/premier_league_2015_2016_striker_defensive_scatter_1200.png?v=20260929-2" alt="Premier League 2015/16 striker defensive profile showing Ayoze Pérez among the strongest pressing and intervention forwards" loading="eager"></button>
+                <figcaption><span>The original per-90 profile remains as a visual reference; the report statistics and ranks use the possession-adjusted reconstruction. Click to enlarge.</span><span>StatsBomb · 2015/16</span></figcaption>
               </figure>
               <div class="finding-grid">
-                <article class="finding"><strong>24.27 pressures per 90</strong><p>Ayoze ranked fourth in the cohort’s combined pressing and counterpressing index, alongside the season’s most active defensive forwards.</p></article>
-                <article class="finding"><strong>7.32 counterpressures per 90</strong><p>His pressure volume was supported by immediate reactions after possession was lost, not only settled defensive actions.</p></article>
-                <article class="finding"><strong>5.98 recoveries per 90</strong><p>This helped Ayoze rank first in the defensive intervention index, showing that his work frequently ended with regained possession.</p></article>
-                <article class="finding"><strong>2,150.8 minutes</strong><p>The result comes from a substantial seasonal workload rather than a short substitute sample.</p></article>
+                <article class="finding"><strong>20.40 pressures per 30 OOP minutes</strong><p>Ayoze remains fourth in the adjusted pressing and counterpressing index, so his ranking is not explained by Newcastle simply spending more time without the ball.</p></article>
+                <article class="finding"><strong>6.16 counterpressures per 30 OOP minutes</strong><p>His pressure volume is supported by immediate reactions after possession was lost, not only settled defensive actions.</p></article>
+                <article class="finding"><strong>5.03 recoveries per 30 OOP minutes</strong><p>Ayoze remains first in the adjusted intervention index, showing that the original outlier survives the opportunity correction.</p></article>
+                <article class="finding"><strong>852.8 estimated OOP minutes</strong><p>The denominator is reconstructed only from opposition-possession intervals while Ayoze was on the pitch.</p></article>
               </div>
-              <p class="model-note"><strong>Metric boundary.</strong> These are within-cohort standardized indexes, not universal player ratings. They establish Ayoze’s relative position among eligible 2015/16 Premier League strikers.</p>
+              <p class="model-note"><strong>Metric boundary.</strong> These remain within-cohort standardized indexes, not universal player ratings. Possession adjustment improves opportunity fairness, but pressing scheme, field position and opponent buildup style still influence the actions available.</p>
               <div class="report-links"><button class="btn primary" id="openAyozeInteractive" type="button">Explore interactive visual <span class="arrow">↗</span></button></div>
             </div>
           </section>
@@ -1065,6 +1187,7 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
                   <li id="ayoze-source-1"><strong>UEFA Technical Observer Group and UEFA analysis unit.</strong> “Champions League Performance Insights: Paris pressing and mobility inspire historic final victory,” 3 June 2025. Official tactical analysis; reports 14 Dembélé pressing actions in the final third.</li>
                   <li id="ayoze-source-2"><strong>Paris Saint-Germain.</strong> “Ousmane Dembélé: La meilleure saison de ma carrière,” 2025. Primary club interview in which Dembélé explains his pressing positioning, intensity and enjoyment.</li>
                   <li id="ayoze-source-3"><strong>ElDesmarque.</strong> “Se hacen virales los antiguos tuits de Dembélé hablando de Ayoze Pérez,” 24 September 2025. Secondary reporting on resurfaced posts from approximately 2014–15; suitable evidence of public praise, not tactical influence.</li>
+                  <li id="ayoze-source-4"><strong>Ballon d’Or.</strong> “Ballon d’Or Winners.” Official winners list confirming Ousmane Dembélé as the 2025 men’s Ballon d’Or recipient.</li>
                 </ol>
               </div>
             </div>
@@ -1088,14 +1211,14 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
         </div>
 
         <div class="method-summary" aria-label="Technical audit summary">
-          <div class="method-stat"><strong>16</strong><span>Python scripts audited</span></div>
+          <div class="method-stat"><strong>17</strong><span>Python scripts audited</span></div>
           <div class="method-stat"><strong>5</strong><span>Core third-party libraries</span></div>
           <div class="method-stat"><strong>2</strong><span>Event-data providers</span></div>
           <div class="method-stat"><strong>1</strong><span>Reproducible workflow</span></div>
         </div>
 
         <div class="toolkit-grid">
-          <article class="tool-card featured"><span class="tool-number">01</span><h3>Pandas</h3><span class="tool-role">Tabular analysis</span><p>Used to load metric tables, filter players by minutes, calculate per-90 rates and z-score indexes, and organize event locations into analysis-ready DataFrames. It provides the bridge between raw football events and interpretable player-level outputs.</p><div class="tool-projects">STRIKER PROFILES · WORLD CUP HEATMAPS · POSSESSION STYLES</div></article>
+          <article class="tool-card featured"><span class="tool-number">01</span><h3>Pandas</h3><span class="tool-role">Tabular analysis</span><p>Used to load metric tables, filter players by minutes, calculate per-90 and possession-adjusted rates, build z-score indexes, and organize event locations into analysis-ready DataFrames. It provides the bridge between raw football events and interpretable player-level outputs.</p><div class="tool-projects">STRIKER PROFILES · WORLD CUP HEATMAPS · POSSESSION STYLES</div></article>
           <article class="tool-card featured"><span class="tool-number">02</span><h3>NumPy</h3><span class="tool-role">Numerical computing</span><p>Powers spatial grids, vectorized pitch coordinates, masked density surfaces and the numerical core of the possession-style research. PCA is computed through singular value decomposition, while repeated K-means++ clustering is implemented directly over NumPy arrays.</p><div class="tool-projects">MBAPPÉ HEATMAPS · WORLD CUP FINAL HEATMAPS · POSSESSION STYLES</div></article>
           <article class="tool-card"><span class="tool-number">03</span><h3>Matplotlib</h3><span class="tool-role">Statistical visualization</span><p>Builds custom football pitches, heatmap layers, colour scales and diagnostic research figures. Low-level patches provide precise control over pitch geometry instead of relying on a pre-built sports-chart template.</p><div class="tool-projects">WORLD CUP HEATMAPS · PCA DIAGNOSTICS · LEAGUE STYLE MAPS</div></article>
           <article class="tool-card"><span class="tool-number">04</span><h3>SciPy</h3><span class="tool-role">Statistics & distance</span><p>Gaussian kernel density estimation turns player event coordinates into continuous involvement surfaces. Pairwise distance calculations support cluster assignment and validation in the possession-style pipeline.</p><div class="tool-projects">SPATIAL DENSITY · K-MEANS · SILHOUETTE ANALYSIS</div></article>
@@ -1107,7 +1230,7 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
         <div class="pipeline">
           <div class="pipeline-head"><h3>How each project uses the stack</h3><p>The same core workflow is adapted to each football question rather than applying one generic technique to every dataset.</p></div>
           <div class="project-methods">
-            <article class="project-method"><h4>Striker defensive profiles</h4><p>StatsBomb actions are aggregated by player, normalized per 90 and standardized within the eligible striker cohort. Pillow renders the final quadrant charts and Python generates standalone interactive HTML companions.</p><div class="method-stack">Pandas · Pillow<br>JSON · Argparse</div></article>
+            <article class="project-method"><h4>Striker defensive profiles</h4><p>StatsBomb actions are aggregated by player, while event timestamps and possession teams reconstruct time spent without the ball. Defensive rates are scaled to 30 estimated opposition-possession minutes, tested against alternative timing caps and standardized within each league.</p><div class="method-stack">Pandas · SciPy<br>JSON · Matplotlib</div></article>
             <article class="project-method"><h4>Midfielder passing profiles</h4><p>Wyscout lineups, substitutions and event archives are reconstructed into player minutes. Smart-pass and key-pass rates are standardized within curated central-midfield cohorts before static and interactive rendering.</p><div class="method-stack">JSON · ZIP · Statistics<br>CSV · Pillow</div></article>
             <article class="project-method"><h4>World Cup spatial analysis</h4><p>Player event coordinates are normalized, transformed to a common pitch and estimated as continuous density surfaces, enabling Mbappé's tournament involvement to be compared spatially across 2018 and 2022.</p><div class="method-stack">Pandas · NumPy<br>SciPy · Matplotlib</div></article>
             <article class="project-method"><h4>Possession-style research pipeline</h4><p>Open-play possessions are reconstructed from Wyscout sequences and expressed as tactical features. Robust scaling, PCA, repeated K-means++, silhouette and Davies-Bouldin diagnostics support evidence-led cluster interpretation.</p><div class="method-stack">NumPy · SciPy · Pandas<br>Matplotlib · Unittest</div></article>
@@ -1178,10 +1301,11 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
       {
         id: 'laliga-1516-strikers', competition: 'La Liga', order: 2, season: '2015/16', yearOrder: 2015,
         title: 'Striker Defensive Profile', type: 'Player profiling', format: 'Interactive + PNG',
-        description: 'Pressing and defensive-intervention indexes reveal contrasting forward roles, with Griezmann a striking two-way outlier.',
+        description: 'Possession-adjusted defensive rates test whether leading scorers defend less once time without the ball is equalized.',
         image: './visualizations/LaLiga/la_liga_2015_2016_striker_defensive_scatter_1200.png',
         interactive: './visualizations/LaLiga/la_liga_2015_2016_striker_defensive_scatter_1200_interactive.html',
-        tags: ['Griezmann', 'Benzema', 'Luis Suárez', 'pressing', 'strikers', 'defensive']
+        report: '#striker-output-report',
+        tags: ['Griezmann', 'Benzema', 'Luis Suárez', 'goals', 'possession adjusted', 'pressing', 'strikers', 'defensive']
       },
       {
         id: 'laliga-1718-midfielders', competition: 'La Liga', order: 2, season: '2017/18', yearOrder: 2017,
@@ -1194,11 +1318,11 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
       {
         id: 'premier-1516-strikers', competition: 'Premier League', order: 3, season: '2015/16', yearOrder: 2015,
         title: 'Striker Defensive Profile', type: 'Player profiling', format: 'Interactive + PNG',
-        description: 'A defensive-role map for Premier League forwards, with Ayoze Pérez ranking first for interventions and fourth for pressing.',
-        image: './visualizations/Premier%20League/premier_league_2015_2016_striker_defensive_scatter_1200.png',
-        interactive: './visualizations/Premier%20League/premier_league_2015_2016_striker_defensive_scatter_1200_interactive.html',
-        report: '#ayoze-dembele-report',
-        tags: ['Ayoze Pérez', 'Ousmane Dembélé', 'Firmino', 'Kane', 'Vardy', 'Agüero', 'pressing', 'counterpressing', 'strikers', 'defensive']
+        description: 'Possession-adjusted defensive rates separate striker behaviour from the amount of time each team spends without the ball.',
+        image: 'file:///C:/Users/titoy/FootballAnalytics/visualizations/premier_league_2015_2016_striker_defensive_scatter_1200.png?v=20260929-2',
+        interactive: 'file:///C:/Users/titoy/FootballAnalytics/visualizations/premier_league_2015_2016_striker_defensive_scatter_1200_interactive.html?v=20260929-2',
+        report: '#striker-output-report',
+        tags: ['Ayoze Pérez', 'Firmino', 'Kane', 'Vardy', 'Agüero', 'goals', 'possession adjusted', 'pressing', 'counterpressing', 'strikers', 'defensive']
       },
       {
         id: 'premier-1718-midfielders', competition: 'Premier League', order: 3, season: '2017/18', yearOrder: 2017,
@@ -1348,6 +1472,23 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
 
     const possessionReportProject = projects.find(project => project.id === 'top-five-possession-styles');
     document.getElementById('openPossessionHeatmap')?.addEventListener('click', () => openViewer(possessionReportProject, false));
+
+    const strikerAdjustedVisual = {
+      competition: 'Premier League & La Liga',
+      season: '2015/16',
+      title: 'Possession-adjusted striker defensive activity',
+      image: './visualizations/striker_defensive_output_relationships.png',
+      interactive: null
+    };
+    const strikerCorrelationVisual = {
+      competition: 'Premier League & La Liga',
+      season: '2015/16',
+      title: 'Possession-adjusted striker correlations',
+      image: './visualizations/striker_defensive_output_correlation_heatmap.png',
+      interactive: null
+    };
+    document.getElementById('openStrikerAdjustedVisual')?.addEventListener('click', () => openViewer(strikerAdjustedVisual, false));
+    document.getElementById('openStrikerCorrelationHeatmap')?.addEventListener('click', () => openViewer(strikerCorrelationVisual, false));
 
     const ayozeReportProject = projects.find(project => project.id === 'premier-1516-strikers');
     document.getElementById('openAyozeDefensiveVisual')?.addEventListener('click', () => openViewer(ayozeReportProject, false));

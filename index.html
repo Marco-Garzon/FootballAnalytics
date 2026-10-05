@@ -736,6 +736,8 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
 .footer-inner { min-height: 230px; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
 .footer-word { color: var(--chalk); font-size: clamp(48px, 8vw, 112px); letter-spacing: -.045em; }
 .footer-meta { color: var(--paper-dim); font: 500 9px/1.9 var(--mono); letter-spacing: .07em; text-align: right; text-transform: uppercase; }
+.footer-license { max-width: 440px; margin: 10px 0 0; font: 400 10px/1.6 var(--body); letter-spacing: 0; text-transform: none; }
+.footer-license a { color: var(--chalk); text-underline-offset: 3px; }
 
 .modal { position: fixed; inset: 0; z-index: 100; display: none; padding: 24px; background: rgba(2,8,5,.9); backdrop-filter: blur(14px); }
 .modal.open { display: grid; place-items: center; animation: fade .2s ease; }
@@ -1283,7 +1285,7 @@ footer { overflow: hidden; border-top: 1px solid var(--line-strong); }
     </div>
   </main>
 
-  <footer><div class="footer-inner wrap"><div class="footer-word">Marco FutStats.</div><div class="footer-meta">Football analytics archive<br>Built to keep growing</div></div></footer>
+  <footer><div class="footer-inner wrap"><div class="footer-word">Marco FutStats.</div><div class="footer-meta">Football analytics archive<br>Built to keep growing<p class="footer-license">© 2026 Marco Garzón. Original writing and visualizations by Marco Garzón are licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="license">CC BY-NC-ND 4.0</a>. Share unchanged for noncommercial purposes with attribution to Marco Garzón, a link to the original project and license, and an indication of changes. Ask permission for commercial use or adapted versions. This license excludes source code, third-party data, logos, and other material credited to their respective owners.</p></div></div></footer>
 
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle">
     <div class="modal-shell">
